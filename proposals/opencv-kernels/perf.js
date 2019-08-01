@@ -43,12 +43,12 @@ const options = {
     CvtColor: {
       height: 640,
       width: 480,
-      expected_dest_hash: "4fdcba6ef8bea5ab32c80bed634ac3f49aaa83029f414c6681c725ef2a767d13"
+      expected_dest_hash: "e3d3fa4dc3c2920d484a9e309be01af596f7a8abd57824e08096fb7c5a7fb055"
     },
     Threshold: {
       height: 640,
       width: 480,
-      expected_dest_hash: "ab4694ad4798a81765a94a74824a9f63d32e81d0495480d6e822de2fc2a69695"
+      expected_dest_hash: "8d7706b9d21f5ea62d147c19400a643163cef58e511fbe71138e42df3f880563"
     },
     Integral: {
       height: 640,
@@ -61,12 +61,12 @@ const options = {
     CvtColor: {
       height: 1280,
       width: 720,
-      expected_dest_hash: "834b7187e1de5721e6966ff553c6570781d7892ba920e297c09543492ddd2845"
+      expected_dest_hash: "0fd0eb4246a578028c0288bcf4208701a6c4365dce612b300d030185207a5358"
     },
     Threshold: {
       height: 1280,
       width: 720,
-      expected_dest_hash: "bb58c705fae087566ae9b37cd7c208a64a047dfa30f7aeafad9358f924ef0aa9"
+      expected_dest_hash: "174d324bd9138bf4e168907ddf500ae8282705b5229a4f023c6eff2031cd8f86"
     },
     Integral: {
       height: 1280,
@@ -79,12 +79,12 @@ const options = {
     CvtColor: {
       height: 1920,
       width: 1080,
-      expected_dest_hash: "b242671e541b5d80289132aa1455ea886d6d54fa613de888fb71d6dd74ae87fc"
+      expected_dest_hash: "a125cb019c88b60a687cd92b5c21ad16e811a7765934c1968614e6e5d4880c84"
     },
     Threshold: {
       height: 1920,
       width: 1080,
-      expected_dest_hash: "f77e2fbf81e8e27561bfa8dcdb5fd325b52c1e7d374a2a53a0290c820f0ee1da"
+      expected_dest_hash: "77897658dd78a779919dac57209a950aa76e7f3b0e58f5ca144794c5221ffa0e"
     },
     Integral: {
       height: 1920,
@@ -166,7 +166,7 @@ function cv_onRuntimeInitialized() {
 };
 
 function perfCvtColor(option) {
-  let source = new cv.Mat(option.height, option.width, cv.CV_8UC4);
+  let source = new cv.Mat(option.height, option.width, cv.CV_8UC4, new cv.Scalar(0, 0, 0, 0));
   let dest = new cv.Mat();
 
   console.log(`=== cvtColor ===`);
@@ -194,7 +194,7 @@ function perfCvtColor(option) {
 function perfThreshold(option) {
   const THRESHOLD = 127.0;
   const THRESHOLD_MAX = 210.0;
-  let source = new cv.Mat(option.height, option.width, cv.CV_8UC1);
+  let source = new cv.Mat(option.height, option.width, cv.CV_8UC1, new cv.Scalar(0));
   let sourceView = source.data;
   sourceView[0] = 0; // < threshold
   sourceView[1] = 100; // < threshold
