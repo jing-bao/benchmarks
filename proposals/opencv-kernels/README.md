@@ -9,7 +9,7 @@ The OpenCV-based applications relies on the kernel functions for the performance
 2) they are heavily used in the image-processing applications;  
 3) they are computation-intensive kernels which can reflect WebAssembly's performance and real user experience.
  
-This benchmark runs each of the functions for 1000 times and measures the startup time and average execution time, the standard deviations are also calculated for stability analysis. In the tail of all 1000 runs, sha256 checksum of output image is calculated and compared with the reference value. By setting the size of images as 640\*480, 1280\*720 and 1920\*1080, the benchmark runs in small, medium and large mode respectively.
+This benchmark runs each of the functions for 1000 times and measures the **prepare time**, **elapsed time** and **average time**, the standard deviations (**stddev**) are also calculated for stability analysis. Among the metrics we evaluate, **prepare time** and **elapsed time** are the dominant ones, and others are only for reference. In the tail of all 1000 runs, sha256 checksum of output image is calculated and compared with the reference value. By setting the size of images as 640\*480, 1280\*720 and 1920\*1080, the benchmark runs in small, medium and large mode respectively.
 
 ## Possible benchmark evolution
 This benchmark is expected to be refined by:
@@ -145,63 +145,63 @@ And here lists the performance data of d8 (7.8.37) with only TurboFan, data on N
     </tr>
     <tr>
         <td rowspan="3">small</td>
-        <td rowspan="3">1501.386</td>
+        <td rowspan="3">1518.469</td>
         <td>cvtColor</td>
-        <td>498.602</td>
-        <td>0.464</td>
-        <td>0.015 (3.31%)</td>
+        <td>463.576</td>
+        <td>0.463</td>
+        <td>0.028 (6.14%)</td>
     </tr>
     <tr>
         <td>threshold</td>
-        <td>207.133</td>
+        <td>172.031</td>
         <td>0.172</td>
-        <td>0.006 (3.89%)</td>
+        <td>0.014 (7.95%)</td>
     </tr>
     <tr>
         <td>integral</td>
-        <td>986.372</td>
-        <td>0.605</td>
-        <td>0.039 (6.49%)</td>
+        <td>617.762</td>
+        <td>0.617</td>
+        <td>0.043 (7.05%)</td>
     </tr>
     <tr>
         <td rowspan="3">medium</td>
-        <td rowspan="3">1504.993</td>
+        <td rowspan="3">1510.839</td>
         <td>cvtColor</td>
-        <td>1398.531</td>
-        <td>1.341</td>
-        <td>0.052 (3.87%)</td>
+        <td>1390.442</td>
+        <td>1.390</td>
+        <td>0.047 (3.39%)</td>
     </tr>
     <tr>
         <td>threshold</td>
-        <td>560.060</td>
-        <td>0.496</td>
-        <td>0.022 (4.37%)</td>
+        <td>513.340</td>
+        <td>0.513</td>
+        <td>0.020 (3.99%)</td>
     </tr>
     <tr>
         <td>integral</td>
-        <td>2986.283</td>
-        <td>1.813</td>
-        <td>0.101 (5.56%)</td>
+        <td>1869.212</td>
+        <td>1.868</td>
+        <td>0.083 (4.43%)</td>
     </tr>
     <tr>
         <td rowspan="3">large</td>
-        <td rowspan="3">1551.478</td>
+        <td rowspan="3">1525.248</td>
         <td>cvtColor</td>
-        <td>3131.883</td>
-        <td>3.014</td>
-        <td>0.137 (4.54%)</td>
+        <td>3151.294</td>
+        <td>3.150</td>
+        <td>0.050 (1.58%)</td>
     </tr>
     <tr>
         <td>threshold</td>
-        <td>1264.85</td>
-        <td>1.132</td>
-        <td>0.038 (3.38%)</td>
+        <td>1154.974</td>
+        <td>1.154</td>
+        <td>0.018 (1.56%)</td>
     </tr>
     <tr>
         <td>integral</td>
-        <td>5911.873</td>
-        <td>4.066</td>
-        <td>0.272 (6.69%)</td>
+        <td>4212.654</td>
+        <td>4.210</td>
+        <td>0.158 (3.75%)</td>
     </tr>
 </table>
 
