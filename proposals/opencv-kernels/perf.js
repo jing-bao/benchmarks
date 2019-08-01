@@ -120,7 +120,7 @@ if (typeof window !== "undefined") {
   opencv_script.id = "opencv_js";
   opencv_script.setAttribute("async", "false");
   opencv_script.setAttribute("type", "text/javascript");
-  opencv_script.src = './opencv/build_wasm/bin/opencv.js';
+  opencv_script.src = './opencv.js';
   opencv_script.onload = function() {
     cv.onRuntimeInitialized = cv_onRuntimeInitialized; 
   }
@@ -135,7 +135,7 @@ else if (typeof process !== "undefined") {
 
   prestart = getTimestamp();
 
-  cv = require('./opencv/build_wasm/bin/opencv.js');
+  cv = require('./opencv.js');
   Sha256 = require("./sha256.js");
   cv.onRuntimeInitialized = cv_onRuntimeInitialized; 
 
@@ -146,7 +146,7 @@ else {
 
   prestart = getTimestamp();
 
-  load('./opencv/build_wasm/bin/opencv.js');
+  load('./opencv.js');
   load("./sha256.js");
   cv.onRuntimeInitialized = cv_onRuntimeInitialized; 
 

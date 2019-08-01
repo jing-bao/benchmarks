@@ -85,10 +85,11 @@ This repo includes OpenCV as a submodule, thus we need to firstly initialize and
 git submodule init
 git submodule update
 ```
-After installing Emscripten SDK, and activating PATH and other environment variables in current terminal, running the following commands generate OpenCV.js:
+After installing Emscripten SDK, and activating PATH and other environment variables in current terminal, running the following commands generate OpenCV.js and copy it here:
 ```
 cd opencv
 python ./platforms/js/build_js.py build_wasm --build_wasm
+cp opencv/build_wasm/bin/opencv.js ..
 ```
 It might be more convinient to build OpenCV.js with build.sh, which encapsulates the above operations:
 ```
