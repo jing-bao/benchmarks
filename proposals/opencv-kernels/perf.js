@@ -1,24 +1,24 @@
 function standardDeviation(values){
-  var avg = average(values);
+  let avg = average(values);
   
-  var squareDiffs = values.map(function(value){
-    var diff = value - avg;
-    var sqrDiff = diff * diff;
+  let squareDiffs = values.map(function(value){
+    let diff = value - avg;
+    let sqrDiff = diff * diff;
     return sqrDiff;
   });
   
-  var avgSquareDiff = average(squareDiffs);
+  let avgSquareDiff = average(squareDiffs);
 
-  var stdDev = Math.sqrt(avgSquareDiff);
+  let stdDev = Math.sqrt(avgSquareDiff);
   return stdDev;
 }
 
 function average(data){
-  var sum = data.reduce(function(sum, value){
+  let sum = data.reduce(function(sum, value){
     return sum + value;
   }, 0);
 
-  var avg = sum / data.length;
+  let avg = sum / data.length;
   return avg;
 }
 
@@ -96,16 +96,16 @@ const options = {
 };
 
 const options_keys = Object.keys(options);
-var prestart;
+let prestart;
 
 if (typeof window !== "undefined") {
   getTimestamp = function(){ return performance.now() };
 
-  var output_node = document.getElementById("output");
+  let output_node = document.getElementById("output");
   output_node.value = "";
 
   console.log = function() {
-    var text = "";
+    let text = "";
     for (let i = 0; i < arguments.length; ++i) {
       text += arguments[i];
     }
@@ -116,7 +116,7 @@ if (typeof window !== "undefined") {
 
   prestart = getTimestamp();
 
-  var opencv_script = document.createElement("script");
+  let opencv_script = document.createElement("script");
   opencv_script.id = "opencv_js";
   opencv_script.setAttribute("async", "false");
   opencv_script.setAttribute("type", "text/javascript");
@@ -126,7 +126,7 @@ if (typeof window !== "undefined") {
   }
   output_node.parentElement.insertBefore(opencv_script, output_node);
 
-  var arguments = window.location.search.substring(1).split("&");
+  let arguments = window.location.search.substring(1).split("&");
   option_str = arguments.length > 0 && options_keys.includes(arguments[0]) ? arguments[0] : "small";
 }
 else if (typeof process !== "undefined") {
@@ -154,11 +154,11 @@ else {
 }
 
 function cv_onRuntimeInitialized() {
-  var preend = getTimestamp();
+  let preend = getTimestamp();
   console.log('opencv.js loaded');
   console.log('Prepare time:', getMs(prestart, preend));
 
-  var option = options[option_str];
+  let option = options[option_str];
 
   perfCvtColor(option["CvtColor"]);
   perfThreshold(option["Threshold"]);
@@ -179,13 +179,13 @@ function perfCvtColor(option) {
     perf.push(getMs(hrstart, hrend));
   }
 
+  const end = getTimestamp();
+  printResult(getMs(start, end), perf);
+
   let dest_hash = Sha256.hash(dest.data.join('')); 
   if (dest_hash !== option.expected_dest_hash) {
     throw "Wrong result from cv.cvtColor()!";
   }
-
-  const end = getTimestamp();
-  printResult(getMs(start, end), perf);
 
   source.delete();
   dest.delete();
@@ -212,13 +212,13 @@ function perfThreshold(option) {
     perf.push(getMs(hrstart, hrend));
   }
 
+  const end = getTimestamp();
+  printResult(getMs(start, end), perf);
+
   let dest_hash = Sha256.hash(dest.data.join('')); 
   if (dest_hash !== option.expected_dest_hash) {
     throw "Wrong result from cv.threshold()!";
   }
-
-  const end = getTimestamp();
-  printResult(getMs(start, end), perf);
 
   source.delete();
   dest.delete();
@@ -239,14 +239,14 @@ function perfIntegral(option) {
     perf.push(getMs(hrstart, hrend));
   }
 
+  const end = getTimestamp();
+  printResult(getMs(start, end), perf);
+
   let sum_hash = Sha256.hash(sum.data.join('')); 
   let sqSum_hash = Sha256.hash(sqSum.data.join('')); 
   if (sum_hash !== option.expected_sum_hash || sqSum_hash !== option.expected_sqSum_hash) {
     throw "Wrong result from cv.integral2()!";
   }
-
-  const end = getTimestamp();
-  printResult(getMs(start, end), perf);
 
   mat.delete();
   sum.delete();
