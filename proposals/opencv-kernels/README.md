@@ -23,6 +23,23 @@ I think this benchmark should be categorized as “kernel”.
 
 ## License
 
+### License for perf.js and opencv-kernel.html
+```
+Copyright 2019 Intel Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
 ### License for OpenCV
 ```
 By downloading, copying, installing or using the software you agree to this license.
@@ -287,4 +304,8 @@ And here is a snapshot of the profile report:
    0.23%  V8 DefaultWorke  d8                     [.] _ZN2v88internal8compiler17ConstraintBuilder21MeetConstraintsBeforeEi                                                                                                                                                                
    0.23%  V8 DefaultWorke  d8                     [.] _ZN2v88internal8compiler16LiveRangeBuilder17ProcessLoopHeaderEPKNS1_16InstructionBlockEPNS0_9BitVectorE                                                                                                                             
 ```
-It can be observed that the top 3 functions are WebAssembly functions, which account for around 34.72% of the total CPU time.
+As is observed, the top 3 functions are WebAssembly functions, which account for around 34.72% of the total CPU time.
+
+## Known issues
+
+It is observed on the V8 shell that when tiers are not specified, the first testee (cvtColor) suffers from tier switching (Liftoff to Turbofan), while other functions runs on top tier only. This may lead to incomparable results. Currently, we'd like to recommend running this workload with only one tier enabled.
