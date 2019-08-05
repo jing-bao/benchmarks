@@ -95,7 +95,7 @@ the use of this software, even if advised of the possibility of such damage.
 ```
 
 ## How to build OpenCV.js
-After installing Emscripten SDK, and activating PATH and other environment variables in current terminal, running build.sh script generates opencv.js and copy it here:
+The build process is **optional** as a prebuilt opencv.js is included in this project. It's also efficient to build opencv.js on your own: after installing Emscripten SDK, and activating PATH and other environment variables in current terminal, running build.sh script generates opencv.js and copies it here:
 ```
 ./build.sh
 ```
