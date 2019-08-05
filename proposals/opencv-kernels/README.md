@@ -1,7 +1,7 @@
 # OpenCV kernels
 
 ## Overview
-The HTML5 standard brings users the great cability of including and handling multimedia locally, together with an emerging need of computer vision programming functions available on the web. However, real-time user experience cannot be achieved when implementing those computation-intensive functions in JavaScript, even on the highly-optimized JavaScript engine. With the announcement of WebAssembly technology, source code in multiple programming languages, such as C, C++, Rust, etc. can be compiled into a sort of low-level and platform-independent bytecode which can run on the browsers while maintaining near-to-native execution speed. Thus, the widely-used OpenCV library can be ported to web platform with little extra effort, the ported library is officially called OpenCV.js.
+The HTML5 standard brings users the great capability of including and handling multimedia locally, together with an emerging need of computer vision programming functions available on the web. However, real-time user experience cannot be achieved when implementing those computation-intensive functions in JavaScript, even on the highly-optimized JavaScript engine. With the announcement of WebAssembly technology, source code in multiple programming languages, such as C, C++, Rust, etc. can be compiled into a sort of low-level and platform-independent bytecode which can run on the browsers while maintaining near-to-native execution speed. Thus, the widely-used OpenCV library can be ported to web platform with little extra effort, the ported library is officially called OpenCV.js.
  
 The OpenCV-based applications relies on the kernel functions for the performance-critical work. This benchmark evaluates three vision kernels for image transformation, including: threshold, integral and cvtColor. The threshold function applies fixed-level thresholding to a single-channel array; the integral function calculates the integral of an image; the cvtColor converts an image from one color space to another. The reasons for their admission are: 
 
@@ -95,20 +95,7 @@ the use of this software, even if advised of the possibility of such damage.
 ```
 
 ## How to build OpenCV.js
-The source code of OpenCV located at: https://github.com/opencv/opencv.git
-
-This repo includes OpenCV as a submodule, thus we need to firstly initialize and update the submodule:
-```
-git submodule init
-git submodule update
-```
-After installing Emscripten SDK, and activating PATH and other environment variables in current terminal, running the following commands generate OpenCV.js and copy it here:
-```
-cd opencv
-python ./platforms/js/build_js.py build_wasm --build_wasm
-cp opencv/build_wasm/bin/opencv.js ..
-```
-It might be more convinient to build OpenCV.js with build.sh, which encapsulates the above operations:
+After installing Emscripten SDK, and activating PATH and other environment variables in current terminal, running build.sh script generates opencv.js and copy it here:
 ```
 ./build.sh
 ```
@@ -131,7 +118,7 @@ chrome http://localhost:8000/opencv-kernel.html[?mode]
 If *mode* is not specified, the workload runs in small mode by default.
 
 ## Expected output
-Moreover, this workload prints the startup time ("Prepare time"), total execution time and validation time each workload takes ("elapsed time") and average execution time ("average time") in milliseconds (ms), together with the standard deviation of execution time. The output matrices of the functions will not be displayed due to their huge sizes, instead, the benchmark checked the sha256 checksums of the results of last iterations. 
+Moreover, this workload prints the startup time ("Prepare time"), total execution time each workload takes ("elapsed time") and average execution time ("average time") in milliseconds (ms), together with the standard deviation of execution time of 1000 rounds. The output matrices of the functions will not be displayed due to their huge sizes, instead, the benchmark checked the sha256 checksums of the results of last iterations. 
 
 An example of the output shows:
 ```
@@ -308,4 +295,4 @@ As is observed, the top 3 functions are WebAssembly functions, which account for
 
 ## Known issues
 
-It is observed on the V8 shell that when tiers are not specified, the first testee (cvtColor) suffers from tier switching (Liftoff to Turbofan), while other functions runs on top tier only. This may lead to incomparable results. Currently, we'd like to recommend running this workload with only one tier enabled.
+It is observed on d8 that when tiers are not specified, the first testee (cvtColor) suffers from tier switching (Liftoff to Turbofan), while other functions runs on top tier only. This may lead to incomparable results. Currently, we'd like to recommend running this workload with only one tier enabled.
