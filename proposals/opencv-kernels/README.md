@@ -7,7 +7,8 @@ The OpenCV-based applications relies on the kernel functions for the performance
 
 1) they are representative kernels in OpenCV; 
 2) they are heavily used in the image-processing applications;  
-3) they are computation-intensive kernels which can reflect WebAssembly's performance and real user experience.
+3) they are computation-intensive kernels which can reflect WebAssembly's performance and real user experience; 
+4) they are potential beneficiaries of WebAssembly SIMD or multi-thread features.
  
 This benchmark runs each of the functions for 1000 times and measures the **prepare time**, **elapsed time** and **average time**, the standard deviations (**stddev**) are also calculated for stability analysis. Among the metrics we evaluate, **prepare time** and **elapsed time** are the dominant ones, and others are only for reference. In the tail of all 1000 runs, sha256 checksum of output image is calculated and compared with the reference value. By setting the size of images as 640\*480, 1280\*720 and 1920\*1080, the benchmark runs in small, medium and large mode respectively.
 
