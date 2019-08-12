@@ -1,0 +1,3 @@
+[submodule "proposals/chipmunk-hourglass/build-chipmunk/Chipmunk2D"]
+	path = proposals/chipmunk-hourglass/build-chipmunk/Chipmunk2D
+	url = https://github.com/slembcke/Chipmunk2D.git
