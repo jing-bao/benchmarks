@@ -3,6 +3,8 @@
 ## Overview
 The benchmark simulates an hourglass with grains of sand inside it and update the positions of the grains of sand by calling into the [Chipmunk2D](http://chipmunk-physics.net/) physics engine compiled from C into WebAssembly.
 
+The goal of this benchmark is to test performance of a physics engine which is important because it impacts the user experience of Web Games a lot.
+
 The benchmark is based on https://codelabs.developers.google.com/codelabs/hour-chipmunk/index.html#0 but modified to be headless.
 
 This benchmark updates the positions of the grains of sand for 500 times and measures the **Prepare time** and **Execution time**. After the last update, the sha256 checksum of a string including all positions is calculated and compared with the reference value. By setting the number of grains as 9\*20, 18\*20 and 18\*41, the benchmark runs in small, medium and large mode respectively.
@@ -134,42 +136,42 @@ perf report -i perf.data.jitted
 And here is a snapshot of the profile report:
 
 ```
-  17.52%  d8               jitted-23351-1712.so  [.] Function:wasm-function[196]-196
-   7.12%  d8               jitted-23351-1554.so  [.] Function:wasm-function[123]-123
-   6.74%  d8               jitted-23351-1769.so  [.] Function:wasm-function[132]-132
-   5.55%  d8               jitted-23351-1559.so  [.] Function:wasm-function[122]-122
-   5.55%  d8               jitted-23351-1806.so  [.] Function:wasm-function[14]-14
-   4.73%  d8               jitted-23351-1814.so  [.] Function:wasm-function[13]-13
-   3.35%  d8               jitted-23351-1811.so  [.] Function:wasm-function[10]-10
-   2.88%  d8               jitted-23351-1727.so  [.] Function:wasm-function[30]-30
-   2.87%  d8               jitted-23351-1547.so  [.] Function:wasm-function[124]-124
-   2.37%  d8               jitted-23351-1809.so  [.] Function:wasm-function[11]-11
-   2.33%  d8               jitted-23351-1674.so  [.] Function:wasm-function[195]-195
-   1.70%  d8               perf-23351.map        [.] 0x0000143f57ff5014
-   1.66%  d8               jitted-23351-1724.so  [.] Function:wasm-function[31]-31
-   1.64%  d8               jitted-23351-1810.so  [.] Function:wasm-function[12]-12
-   1.63%  d8               jitted-23351-1815.so  [.] Function:wasm-function[19]-19
-   1.52%  d8               jitted-23351-1587.so  [.] Function:wasm-function[117]-117
-   1.18%  d8               jitted-23351-1688.so  [.] Function:wasm-function[43]-43
-   1.17%  d8               jitted-23351-1739.so  [.] Function:wasm-function[28]-28
-   0.90%  d8               jitted-23351-1596.so  [.] Function:wasm-function[240]-240
-   0.87%  d8               jitted-23351-1802.so  [.] Function:wasm-function[22]-22
-   0.84%  d8               jitted-23351-1818.so  [.] Function:wasm-function[58]-58
-   0.81%  d8               jitted-23351-1657.so  [.] Function:wasm-function[255]-255
-   0.81%  d8               perf-23351.map        [.] 0x0000143f57ff5000
-   0.80%  d8               jitted-23351-1840.so  [.] Function:wasm-function[57]-57
-   0.69%  d8               jitted-23351-1781.so  [.] Function:wasm-function[245]-245
-   0.69%  d8               jitted-23351-1720.so  [.] Function:wasm-function[32]-32
-   0.67%  d8               jitted-23351-1565.so  [.] Function:wasm-function[301]-301
-   0.67%  d8               jitted-23351-1759.so  [.] Function:wasm-function[247]-247
-   0.56%  d8               jitted-23351-1567.so  [.] Function:wasm-function[299]-299
-   0.56%  d8               jitted-23351-1620.so  [.] Function:wasm-function[302]-302
-   0.53%  d8               jitted-23351-1615.so  [.] Function:wasm-function[109]-109
-   0.50%  d8               jitted-23351-1753.so  [.] Function:wasm-function[248]-248
-   0.43%  d8               jitted-23351-1732.so  [.] Function:wasm-function[70]-70
-   0.41%  d8               jitted-23351-1789.so  [.] Function:wasm-function[129]-129
-   0.39%  d8               perf-23351.map        [.] 0x0000143f57ff506d
-   0.35%  d8               jitted-23351-1555.so  [.] Function:wasm-function[162]-162
-   0.34%  d8               perf-23351.map        [.] 0x0000143f57ff500f
-   0.32%  d8               perf-23351.map        [.] 0x0000143f57ff5068
+  18.29%  d8               jitted-31252-1838.so  [.] Function:wasm-function[196]-196
+   6.38%  d8               jitted-31252-1750.so  [.] Function:wasm-function[132]-132
+   6.18%  d8               jitted-31252-1555.so  [.] Function:wasm-function[123]-123
+   6.00%  d8               jitted-31252-1787.so  [.] Function:wasm-function[14]-14
+   5.94%  d8               jitted-31252-1560.so  [.] Function:wasm-function[122]-122
+   4.99%  d8               jitted-31252-1790.so  [.] Function:wasm-function[13]-13
+   4.07%  d8               jitted-31252-1801.so  [.] Function:wasm-function[10]-10
+   3.30%  d8               jitted-31252-1733.so  [.] Function:wasm-function[30]-30
+   2.60%  d8               jitted-31252-1550.so  [.] Function:wasm-function[124]-124
+   2.03%  d8               jitted-31252-1799.so  [.] Function:wasm-function[11]-11
+   1.97%  d8               jitted-31252-1810.so  [.] Function:wasm-function[195]-195
+   1.83%  d8               jitted-31252-1731.so  [.] Function:wasm-function[31]-31
+   1.75%  d8               jitted-31252-1780.so  [.] Function:wasm-function[43]-43
+   1.69%  d8               perf-31252.map        [.] 0x000036ebbd506014
+   1.68%  d8               jitted-31252-1807.so  [.] Function:wasm-function[19]-19
+   1.48%  d8               jitted-31252-1589.so  [.] Function:wasm-function[117]-117
+   1.20%  d8               jitted-31252-1796.so  [.] Function:wasm-function[12]-12
+   0.97%  d8               jitted-31252-1593.so  [.] Function:wasm-function[238]-238
+   0.97%  d8               jitted-31252-1742.so  [.] Function:wasm-function[28]-28
+   0.94%  d8               jitted-31252-1772.so  [.] Function:wasm-function[243]-243
+   0.83%  d8               jitted-31252-1812.so  [.] Function:wasm-function[58]-58
+   0.82%  d8               jitted-31252-1730.so  [.] Function:wasm-function[32]-32
+   0.80%  d8               jitted-31252-1671.so  [.] Function:wasm-function[253]-253
+   0.75%  d8               jitted-31252-1563.so  [.] Function:wasm-function[299]-299
+   0.74%  d8               perf-31252.map        [.] 0x000036ebbd50600f
+   0.70%  d8               jitted-31252-1792.so  [.] Function:wasm-function[22]-22
+   0.60%  d8               jitted-31252-1749.so  [.] Function:wasm-function[129]-129
+   0.59%  d8               jitted-31252-1758.so  [.] Function:wasm-function[245]-245
+   0.54%  d8               jitted-31252-1834.so  [.] Function:wasm-function[89]-89
+   0.51%  d8               jitted-31252-1753.so  [.] Function:wasm-function[246]-246
+   0.48%  d8               jitted-31252-1794.so  [.] Function:wasm-function[57]-57
+   0.45%  d8               jitted-31252-1624.so  [.] Function:wasm-function[300]-300
+   0.38%  d8               jitted-31252-1570.so  [.] Function:wasm-function[311]-311
+   0.36%  d8               jitted-31252-1567.so  [.] Function:wasm-function[297]-297
+   0.34%  d8               jitted-31252-1660.so  [.] Function:wasm-function[286]-286
+   0.34%  d8               perf-31252.map        [.] 0x000036ebbd506000
+   0.33%  d8               perf-31252.map        [.] 0x000036ebbd50606d
+   0.33%  d8               jitted-31252-1628.so  [.] Function:wasm-function[109]-109
 ```
