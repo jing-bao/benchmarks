@@ -1,4 +1,4 @@
-# OpenCV kernels
+# Chipmunk Hourglass
 
 ## Overview
 The benchmark simulates a hourglass with grains of sand inside it and update the positions of the grains of sand by calling into the [Chipmunk2D](http://chipmunk-physics.net/) physics engine compiled from C into WebAssembly.
