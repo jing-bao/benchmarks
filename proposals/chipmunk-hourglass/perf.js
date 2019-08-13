@@ -80,8 +80,9 @@ else if (typeof process !== "undefined") {
 
   prestart = getTimestamp();
 
-  Module = require("./chipmunk.js");
+  Hourglass = require("./hourglass.js");
   Sha256 = require("./sha256.js");
+  Module = require("./chipmunk.js");
   Module.onRuntimeInitialized = chipmunk_onRuntimeInitialized;
 
   option_str = process.argv.length > 2 && options_keys.includes(process.argv[2]) ? process.argv[2] : "small";
@@ -91,112 +92,34 @@ else {
 
   prestart = getTimestamp();
 
-  load("./chipmunk.js");
+  load("./hourglass.js");
   load("./sha256.js");
+  load("./chipmunk.js");
   Module.onRuntimeInitialized = chipmunk_onRuntimeInitialized;
 
   option_str = arguments.length > 0 && options_keys.includes(arguments[0]) ? arguments[0] : "small";
 }
 
-var cm_instance;
 function chipmunk_onRuntimeInitialized() {
   let preend = getTimestamp();
   console.log("chipmunk.js loaded");
   console.log("Prepare time:", getMs(prestart, preend));
 
   let option = options[option_str];
-  cm_instance = Module._CM_Instance_new();
-  build_world(option);
+  Hourglass.build_world(option, Module);
   perf_ticks(option);
 };
-
-const interior = [
-  105,89,
-  276,89,
-  284,100,
-  288,127,
-  285,151,
-  273,176,
-  249,204,
-  198,247,
-  198,258,
-  250,308,
-  271,334,
-  284,358,
-  287,379,
-  285,403,
-  96,403,
-  98,375,
-  107,345,
-  128,315,
-  186,257,
-  186,247,
-  127,193,
-  114,180,
-  105,165,
-  98,141,
-  97,111,
-  105,89
-];
-
-function build_world(option) {
-  // Create the walls of the interior of the hourglass shape
-  for (var i = 0; i < interior.length - 2; i += 2) {
-    Module._CM_Add_wall(cm_instance, 0, interior[i], interior[i + 1], interior[i + 2], interior[i + 3]);
-  }
-  generate_sand(option);
-  // Invert gravity and run for a few ticks to clump the sand at the top of the hourglass before starting
-  //Module._CM_Set_gravity(cm_instance, 2, -50);
-  //for (var i = 0; i < 200; i++) {
-    //Module._CM_Step(cm_instance);
-  //}
-  //Module._CM_Set_gravity(cm_instance, 0, 50);
-}
-
-const startx = 109;
-const starty = 92;
-var ballArr = [];
-function generate_sand(option) {
-  var ball;
-  x = startx;
-  y = starty;
-  for (j = 0; j < option.rows; j++) {
-    for (i = 0; i < option.cols; i++) {
-      ball = Module._CM_Add_circle(cm_instance, (i * option.cols) + j, x, y, 1.8);
-      ballArr.push(ball);
-      x += 4;
-    }
-    x = startx;
-    y += 4;
-  }
-}
-
-function handle_tick() {
-  // Run a tick of the simulation, and update grains of sand positions
-  //var exe_start = performance.now();
-  Module._CM_Step(cm_instance);
-  //var exe_end = performance.now();
-  //Module['exeTime'] += exe_end - exe_start;
-}
 
 function perf_ticks(option) {
   const start = getTimestamp()
   for (let i = 0; i < samples; ++i) {
-    handle_tick();
+    Hourglass.handle_tick(Module);
   }
   const end = getTimestamp();
   console.log(`Execution time: ${getMs(start, end)}`);
 
-  var result_str = "";;
-  for (var i = 0; i < option.rows * option.cols; i++) {
-    var ball = ballArr.shift();
-    var location = Module._CM_Get_location(cm_instance, ball);
-    var pos = new Float32Array(Module.HEAPU8.buffer, location, 3);
-    result_str = result_str + pos[0].toFixed(3) + " " + pos[1].toFixed(3) + " ";
-  }
-  let loc_hash = Sha256.hash(result_str);
+  let loc_hash = Sha256.hash(Hourglass.get_result_string(option, Module));
   if (loc_hash !== option.expected_loc_hash) {
     throw "Wrong result!";
   }
-
 }
